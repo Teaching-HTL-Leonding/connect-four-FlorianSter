@@ -1,6 +1,26 @@
 <h1>Level 3</h1>
 
 <!--
-  TODO: Enhance solution from level 2 by using *ngFor
-  NOTE: Your connect-four board should have SEVEN COLUMNS and SIX ROWS!
+  TODO: Complete the Angular code by adding proper data bindings.
+  At the end, this should become a working connect-four-game on a
+  4 x 4 board.
 -->
+
+<table class="connect-four-board">
+  <tbody>
+    <tr>
+      <td class="indicator" *ngFor="let x of getCells()[0]; let colIdx = index">
+        <app-column-indicator [columnIndex]="colIdx" (drop)="drop($event)" [playerIndex]="currentPlayerIndex"></app-column-indicator>
+      </td>
+    </tr>
+    <tr *ngFor="let x of getCells(); let rowIdx = index">
+      <td *ngFor="let y of x; let colIdx = index">
+        <div class="coin" [class]="getStyle(rowIdx,colIdx)"></div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>The winner is {{winner}}</h2>
+
+<button (click)="reset()">Restart</button>
