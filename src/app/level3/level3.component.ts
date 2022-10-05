@@ -1,18 +1,6 @@
 import { Component } from '@angular/core';
 import { Level2Component } from '../level2/level2.component';
 
-export interface BoardCell {
-  /**
-   * Player (X or O) occupying the cell, empty string if the cell is empty.
-   */
-  playerName: string;
-
-  /**
-   * CSS class of the player occupying the cell, empty string if the cell is empty.
-   */
-  class: string;
-}
-
 
 @Component({
   templateUrl: './level3.component.html',
@@ -22,26 +10,86 @@ export class Level3Component extends Level2Component{
   // TODO: Complete this class by adding the appropriate code.
   // Try to avoid copying the code from level 2. Find a different solution
   // for reusing the existing logic.
+
+
   constructor() {
     super();
+    this.reset();
   }
 
+  public override reset(): void {
+      super.reset();
+      this.gameField = [
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0]
+      ]
+  }
 
-  /**
-   * Get a two-dimensional array representing the board's content.
-   */
-   public getCells(): BoardCell[][] {
-    const result: BoardCell[][] = [];
-    for (let row = 0; row < 4; row++) {
-      result.push([]);
-      for (let col = 0; col < 4; col++) {
-        result[row][col] = {
-          playerName: this.gameField[row][col].toString(),
-          class: this.getStyle(row, col),
-        };
+  protected override getWinnerIndex(): number {
+    //Horizontal
+    for (let i = 0; i < this.gameField.length; i++) {
+      for (let j = 0; j < this.gameField[i].length - 3; j++) {
+        if (
+          this.gameField[i][j] !== 0 &&
+          this.gameField[i][j] === this.gameField[i][j + 1] &&
+          this.gameField[i][j] === this.gameField[i][j + 2] &&
+          this.gameField[i][j] === this.gameField[i][j + 3]
+        ) {
+          return this.gameField[i][j];
+        }
       }
     }
 
-    return result;
+    //Vertical
+    for (let i = 0; i < this.gameField.length - 3; i++) {
+      for (let j = 0; j < this.gameField[i].length; j++) {
+        if (
+          this.gameField[i][j] !== 0 &&
+          this.gameField[i][j] === this.gameField[i + 1][j] &&
+          this.gameField[i][j] === this.gameField[i + 2][j] &&
+          this.gameField[i][j] === this.gameField[i + 3][j]
+        ) {
+          return this.gameField[i][j];
+        }
+      }
+    }
+
+
+    //Diagonal <--
+    for (let i = 0; i < this.gameField.length - 3; i++) {
+      console.log(this.gameField)
+      for (let j = 0; j < this.gameField[i].length - 3; j++) {
+        if (
+          this.gameField[i][j] !== 0 &&
+          this.gameField[i][j] === this.gameField[i + 1][j + 1] &&
+          this.gameField[i][j] === this.gameField[i + 2][j + 2] &&
+          this.gameField[i][j] === this.gameField[i + 3][j + 3]
+        ) {
+          return this.gameField[i][j];
+        }
+      }
+    }
+
+    // Diagonal -->
+    for (let i = 0; i < this.gameField.length - 3; i++) {
+      for (let j = 3; j < this.gameField[i].length; j++) {
+        if (
+          this.gameField[i][j] !== 0 &&
+          this.gameField[i][j] === this.gameField[i + 1][j - 1] &&
+          this.gameField[i][j] === this.gameField[i + 2][j - 2] &&
+          this.gameField[i][j] === this.gameField[i + 3][j - 3]
+        ) {
+          return this.gameField[i][j];
+        }
+      }
+    }
+
+    return 0;
   }
+
+
 }

@@ -9,11 +9,11 @@
 <table class="connect-four-board">
   <tbody>
     <tr>
-      <td class="indicator" *ngFor="let x of getCells()[0]; let colIdx = index">
+      <td class="indicator" *ngFor="let x of gameField[0]; let colIdx = index">
         <app-column-indicator [columnIndex]="colIdx" (drop)="drop($event)" [playerIndex]="currentPlayerIndex"></app-column-indicator>
       </td>
     </tr>
-    <tr *ngFor="let x of getCells(); let rowIdx = index">
+    <tr *ngFor="let x of gameField; let rowIdx = index">
       <td *ngFor="let y of x; let colIdx = index">
         <div class="coin" [class]="getStyle(rowIdx,colIdx)"></div>
       </td>
